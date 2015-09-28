@@ -1,0 +1,384 @@
+\documentclass[1pt]{beamer}
+\mode<presentation>
+{
+	\usetheme[usetitleprogressbar,nosmallcapitals]{m}
+	\setbeamercovered{transparent}
+	%\setbeamertemplate{caption}[numbered]
+}
+%\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+%\usepackage{lmodern}
+%\usepackage{times}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\makeatletter
+\def\verbatim{\scriptsize\@verbatim \frenchspacing\@vobeyspaces \@xverbatim}
+\makeatother
+
+	
+\title{Introduction à \LaTeX{}}
+
+\author[]{Internet -- Le \textsc{HAUM} \inst{1} -- Mathieu \textsc{Gaborit} \inst{1,}\inst{2} \\Baptiste \textsc{Ereau} \inst{1,}\inst{2}}
+
+\institute[]
+{
+	\inst{1}%
+	Hackerspace AU Mans ~~\url{http://www.haum.org}
+		\and
+	\inst{2}%
+	Université du Maine
+}
+
+\date{}
+\newif\iflattersubsect
+
+\AtBeginSection[]{
+	\begin{frame}<beamer>{Sommaire}
+		\tableofcontents[currentsection]
+	\end{frame}
+	\lattersubsectfalse
+}
+\AtBeginSubsection[]{
+    \iflattersubsect
+	\begin{frame}<beamer>{Sommaire}
+		\tableofcontents[currentsection, currentsubsection]
+	\end{frame}
+	\fi
+    \lattersubsecttrue
+}
+
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+\begin{frame}{Au menu}
+	\tableofcontents
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\subsection{\LaTeX, Kézako ?}
+%%%%%%%%%%%%%%%%%%%
+
+%--------------------------------------------
+\begin{frame}{\LaTeX ~c'est quoi ?}
+	\LaTeX~ = {\em Processeur de documents} :
+
+	\begin{itemize}
+	\item texte $\rightarrow$ document (pas de forme)
+	\item un poil de programmation
+	\item tous types de documents (ce diapo, des partitions, des thèses ou la plupart des cours donnés par les professeurs sont \em{made in }\LaTeX ~!)
+	\end{itemize}
+	
+	\begin{block}{}
+	\centering
+	Outil très puissant !
+	\end{block}
+	
+\end{frame}
+
+%--------------------------------------
+\begin{frame}{Possibilités, Avantages}
+Pourquoi \LaTeX ?
+\begin{itemize}
+\item Normalisation, professionnel,
+\item structures complexes produites facilement (table des matières, renvois, notes de bas de page),
+\item maths,
+\item pléthore d'extensions pour tous les besoins,
+\item communautaire et libre.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------
+\begin{frame}{Inconvénients, Difficultés}
+Un tout petit peu de bémols (parce qu'il faut bien en mettre...) :
+\begin{itemize}
+\item obscur au début (comme toujours),
+\item difficultés à personnaliser (mais beaucoup de \textit{templates}),
+\item si problème de compilation : pas de document,
+\item informations souvent en ligne.
+\end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Les bases}
+\subsection{Installer / Utiliser}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Installation}
+Installation et paquets :\\
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+Linux & \texttt{\$ sudo apt-get install texlive-full}  \\\hline
+Mac & Mac\TeX \\\hline
+Windows & MiK\TeX ~(suivant, suivant, suivant, terminer)\\\hline
+\end{tabular}
+\end{center}
+Création d'un document :\\
+\verb|fichier.tex| $\rightarrow$ compilateur $\rightarrow$ \verb|fichier.pdf|
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Documents}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%--------------------
+\begin{frame}[fragile]{Exemple}
+\begin{columns}[T]
+\begin{column}{.40\textwidth}
+\underline{Visuel approximatif :}\\
+\begin{center}
+\begin{large}
+H2G2 (sur Wikipedia)
+\end{large}
+\begin{normalsize}
+Douglas Adams\\
+1982
+\end{normalsize}
+\end{center}
+\begin{small}
+Arthur Dent, citoyen anglais moyen...
+\end{small}
+\end{column}
+\hfill
+\begin{column}{.56\textwidth}
+\underline{Code :} 
+\begin{verbatim}
+\documentclass[11pt, a4paper]{article}
+% Modules à utiliser
+\usepackage{url}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% Titre
+\title{H2G2 (sur Wikipedia)}
+\author{Douglas Adams}
+\date{1982}
+
+\begin{document}
+    \maketitle % on affiche le titre
+
+Arthur Dent, citoyen anglais moyen...
+
+\end{document}
+\end{verbatim}
+\end{column}
+\end{columns}
+\end{frame}
+%---------------------------------------------------------
+\begin{frame}[fragile]{Explications : Préambule}
+Différents types d'instructions : 
+\begin{itemize}
+\item Les commentaires : \%
+\item Des zones définies par \verb|\begin{}| et \verb|\end{}|
+\item Des commandes : \verb|\commande[options]{classe}|
+\end{itemize}
+\vspace{10pt}
+Préambule, la première personnalisation : \begin{itemize}
+\item modules \verb|\usepackage[options]{nom du paquet}|
+\item options de contenu (titre, date, auteur, etc...)
+\item (re)définitions de commandes \verb|\newcommand{nom}{effet}|, \verb|\renewcommand{ancienne commande}{nouvel effet}|
+\end{itemize}
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}[fragile]{Corps du document}
+Paragraphes : 
+\begin{itemize}
+\item pas de marquage précis : taper !
+\item \verb|\\| pour un retour à la ligne,
+\item passer une ligne pour un nouveau paragraphe.
+\end{itemize}
+
+Hiérarchie des titres : part, chapter, section, subsection, subsubsection, paragraph.
+
+Alignements : \verb|flushleft, flushright, center|, s'utilisent comme les autres avec \verb|\begin{} \end{}|.
+
+Police : Plus {\Large gros} ou plus {\footnotesize petit}. En \textit{italique}, en \textbf{gras} ou \underline{souligné}. (resp. \verb|{\Large }|, \verb|{\footnotesize }| \verb|\textit{}| \verb|\textbf{}| \verb|\underline{}|)
+\end{frame}
+
+
+\subsection{Instructions plus avancées}
+%%%%%%%%%%%%%% LISTES %%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Level up : listes}
+\begin{columns}[T]
+\begin{column}{.48\textwidth}
+~\\
+\begin{itemize}
+\item Des listes 
+\begin{enumerate}
+\item De 
+\item différents
+\item types
+\begin{itemize}
+\item[-] parfois
+\item[-] emmêlées !
+\end{itemize}
+\item mais
+\item toujours
+\end{enumerate}
+\item de bon goût !
+\end{itemize}
+\end{column}
+\hfill
+\begin{column}{.48\textwidth}
+\begin{verbatim}
+\begin{itemize}
+\item Des listes 
+    \begin{enumerate}
+    \item De 
+    \item différents
+    \item types,
+        \begin{itemize}
+        \item[-] parfois
+        \item[-] emmêlées !
+        \end{itemize}
+    \item mais
+    \item toujours
+    \end{enumerate}
+\item de bon goût !
+\end{itemize}
+\end{verbatim}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+%%%%%%%%%%%% FIGURES %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Level up : figures}
+\begin{columns}[T]
+\begin{column}{.45\textwidth}
+\begin{figure}
+\centering
+\includegraphics[width = 0.90\textwidth]{nyan.png}
+\caption{Une prodigieuse figure}
+\label{fig:nyan}
+\end{figure}
+\end{column}
+%\hfill
+\begin{column}{.6\textwidth}
+\begin{verbatim}
+\begin{figure}
+\centering
+\includegraphics[width = 0.98\textwidth]{
+nyan.png}
+\caption{Une prodigieuse figure}
+\label{fig:nyan}
+\end{figure}
+\end{verbatim}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+%%%%%%%%% TABLEAUX %%%%%%%%%%%%%%
+\begin{frame}[fragile]{Level up : tableaux}
+\begin{columns}[T]
+\begin{column}{.50\textwidth}
+\begin{figure}
+    \begin{tabular}{l|c|r}
+     Numéro & Nom & Type   \\\hline
+     001 & Bulbizarre & Plante\\
+     025 & Pikachu & Electricité\\
+     150 & Mewto & Psy\\
+    \end{tabular}
+    \caption{\label{tab:pokemon} Quelques pokémons}
+\end{figure}
+\end{column}
+\hfill
+\begin{column}{.50\textwidth}
+\begin{verbatim}
+\begin{figure}
+   \begin{tabular}{l|c|r}
+    Numéro & Nom & Type   \\\hline
+    001 & Bulbizarre & Plante\\
+    025 & Pikachu & Electricité\\
+    150 & Mewto & Psy\\
+   \end{tabular}
+   \caption{\label{tab:pokemon}
+            Quelques pokémons}
+\end{figure}
+\end{verbatim}
+\end{column}
+\end{columns}
+~\\N'oubliez pas qu'il y avait la figure \ref{fig:nyan} sur la diapo précédente ! (Références avec \verb|\ref{label})|
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Présentations}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Présentations ? Tout est pareil !}
+\begin{itemize}
+\item Changer de type de doc : \verb|\documentclass[]{beamer}|.
+\item Différents rendus avec la personnalisation du mode de présentation (ici, le thème m)
+\item Les "frame" se construisent une à une avec \verb|\begin{frame}[options]{Titre} \end{frame}|.
+\end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+\section{Les Maths !}
+\subsection{Écrire}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Pour frimer en société}
+Tout ce qu'on peut faire avec \LaTeX ~(eq. \ref{eq:poutre}) :
+\begin{equation}
+\phi(\vec{x_0}) = \frac{1}{\lambda_i} \iint_{disque}\phi(\vec{x}) \frac{e^{ik|\vec{x} - \vec{x_0}|}}{|\vec{x} - \vec{x_0}|} \cos{(\vec{n}.\vec{x} - \vec{x_0})}dS\label{eq:poutre}
+\end{equation}
+Équation de Rayleigh, champ diffracté d'une onde acoustique par une surface (disque)
+\end{frame}
+
+%-----------------------------------------------
+\begin{frame}[fragile]{Comment faire ?}
+\begin{itemize}
+\item Dans le texte ({\em{inline}}), entouré du symbole \$ : \verb|$\exp(x)=\sum_{k=0}^{\infty}\frac{x^k}{k!}$| donne $\exp(x)=\sum_{k=0}^{\infty}\frac{x^k}{k!}$
+\item Dans un environnement ({\em{display}}) \verb|\[ \]|, \verb|\begin{equation}| ou bien \verb|\begin{eqnarray}| :
+\begin{equation}
+\exp(x)=\sum_{k=0}^{\infty}\frac{x^k}{k!}
+\end{equation}
+\end{itemize}
+
+Notez les différences dues à l'adaptation des équations à la taille de la ligne et de la numérotation des équations délimitées !
+\end{frame}
+
+\begin{frame}[fragile]{Quelques formules}
+On ne peut jamais être exhaustif donc voir (\href{http://fr.wikipedia.org/wiki/Aide:Formules_TeX}{ici}), mais sachez que :
+\begin{center}
+\begin{tabular}{l|c|c}
+ Lettres grecques & \verb|\Psi \zeta \epsilon| & $\Psi$ $\zeta$ $\epsilon$\\\hline
+ Symboles divers & \verb|\iff \in \leq \forall| & $\iff \in \leq \forall$\\\hline
+ Fonctions & \verb|\cos \sqrt{x} \ln| & $\cos \sqrt{x} \ln$\\\hline
+ Grands opérateurs & \verb|\sum \int_a^b \bigcup| & $\sum \int_a^b \bigcup$\\\hline
+ Exposant, indice & \verb|a^{b^c} a_b| & $a^{b^c}$ $a_b$\\\hline
+ Lettres d'ensembles & \verb|\mathbb{R} \mathbb{N}| & $\mathbb{R}$ $\mathbb{N}$
+\end{tabular}
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Conclusion}
+\LaTeX{}, ça poutre :
+\begin{itemize}
+\item Adaptable.
+\item Puissant.
+\item Esthétique.
+\item Pratique.
+\end{itemize}
+
+
+Si plusieurs intéressés : organiser une formation ?
+\end{frame}
+\end{document}
